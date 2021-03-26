@@ -1,0 +1,88 @@
+<ng-template [ngIf]="processedProteins && processedProteins.length > 1">
+  <div style="padding-top: 30px">
+    <div class="small-12 columns">
+      <p style="font-size: 1.2em; color: #444444">
+        <strong>Processed Proteins ({{getCount()}}):</strong>
+      </p>
+      <div class="row show-for-large" style="text-align: center; margin-bottom: 10px; font-weight: bold">
+        <div class="medium-12 large-3 columns header">Protein Name</div>
+        <div class="medium-12 large-3 columns header">
+          Representative Structures<br>
+          <span style="font-size: smaller"><i class="icon icon-functional" data-icon="4"></i> Click on a box for 3D view</span>
+        </div>
+        <div class="medium-12 large-4 columns header">Available Structural Data</div>
+        <div class="medium-12 large-2 columns header">Navigate</div>
+      </div>
+
+      <div *ngFor="let item of processedProteins; let i = index" class="row" style="text-align: left">
+        <div *ngIf="i < showLimit && checkItem(item)" id="processed-protein-list">
+          <div class="medium-12 large-3 columns">
+            <span class="hide-for-large">
+              <strong>Protein name:&nbsp;</strong>
+            </span>
+            {{item.name}}
+          </div>
+          <div class="medium-12 large-3 columns">
+            <div style="width: 100%; height: 30px; position:relative; margin-top: 12px;">
+              <div style="width: 100%; background-color: #8c8c8c; height: 4px; position:relative; top:-4px"></div>
+              <div [ngStyle]="getSectionStyle(item)"
+                   class="segment label-tooltip" (click)="openMolstarDialog(item.representative_pdb)">
+                    <span *ngIf="item.representative_pdb" class="label-tooltip-text">
+                      UniProt range of the processed protein: {{item.unp_start}} - {{item.unp_end}}<br>
+                      UniProt range of representative PDB {{item.representative_pdb.pdb_id}} chain {{item.representative_pdb.best_chain}}: {{item.representative_pdb.unp_start}} - {{item.representative_pdb.unp_end}}</span>
+              </div>
+            </div>
+          </div>
+          <div class="medium-12 large-4 columns" style="font-weight: bold; font-size: 1.2em; text-align: center">
+            <div class="small-4 columns label-tooltip"
+                 [ngStyle]="getIconStyle(item.summary_counts.pdbs)">
+              <i class="icon icon-conceptual" data-icon="s"></i>&nbsp;{{item.summary_counts.pdbs}}
+              <span class="label-tooltip-text"
+                    style="font-weight: normal; font-size: initial">Number of PDB structures</span>
+            </div>
+            <div class="small-4 columns label-tooltip"
+                 [ngStyle]="getIconStyle(item.summary_counts.ligands)">
+              <i class="icon icon-conceptual" data-icon="b"></i>&nbsp;{{item.summary_counts.ligands}}
+              <span class="label-tooltip-text" style="font-weight: normal; font-size: initial">Number of ligands</span>
+            </div>
+            <div class="small-4 columns label-tooltip"
+                 [ngStyle]="getIconStyle(item.summary_counts.interactions)">
+              <i class="icon icon-conceptual"
+                 data-icon="y"></i>&nbsp;{{item.summary_counts.interactions}}
+              <span class="label-tooltip-text" style="font-weight: normal; font-size: initial">Number of interaction partners</span>
+            </div>
+          </div>
+          <div class="medium-12 large-2 columns" style="text-align: center">
+            <a *ngIf="item.representative_pdb" class="button padding-small" href="/pdbe/pdbe-kb/proteins/{{item.id}}" style="font-size: smaller"
+               target="_blank">
+              <i class="icon icon-generic" data-icon="x"></i>&nbsp;View Page
+            </a>
+            <span class="hide-for-large">
+            <hr>
+          </span>
+          </div>
+        </div>
+
+      </div>
+
+      <div *ngIf="processedProteins.length >= showLimit" class="row">
+        <div class="small-12 medium-3 columns" style="text-align: center">
+          <button *ngIf="showLimit < processedProteins.length"
+             (click)="showMore()" class="button padding-small" style="width: 100%">
+            <i class="icon icon-functional" data-icon="+"></i>
+            Show more items
+          </button>
+          <button *ngIf="showLimit == processedProteins.length && defaultShowLimit < processedProteins.length"
+             (click)="showLess()" class="button padding-small" style="width: 100%">
+            <i class="icon icon-functional" data-icon="-"></i>
+            Show less items
+          </button>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+</ng-template>
+
+
