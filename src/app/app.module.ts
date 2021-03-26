@@ -4,7 +4,7 @@ import { NgModule } from '@angular/core';
 import { AppComponent } from './app.component';
 import { PolyproteinSectionComponent } from './polyprotein-section/polyprotein-section.component';
 import { MolstarDialogComponent } from './molstar-dialog/molstar-dialog.component';
-import {MatDialogModule} from "@angular/material";
+import {MatDialogModule} from '@angular/material';
 
 @NgModule({
   declarations: [
