@@ -1,4 +1,4 @@
-PDBe-KB Summary Icons Component
+PDBe-KB Polyproteins Section Component
 =
 
 [![Build Status](https://www.travis-ci.com/PDBe-KB/component-download.svg?branch=main)](https://www.travis-ci.com/PDBe-KB/component-download)
